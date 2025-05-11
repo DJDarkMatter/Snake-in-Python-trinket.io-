@@ -38,7 +38,7 @@ def delcell(): # Define function delete cell
   tommy.forward(6)
   tommy.right(90)
   tommy.backward(6) # Move from arbitrary center to corner but 1 further to erase all
-  tommy.begin_fill() # EColor start
+  tommy.begin_fill() # Color start
   for i in range(4): # For loop repeating 4 times
     tommy.forward(12) # 1 Wall of a cell
     tommy.right(90) # 1 Corner of a cell
