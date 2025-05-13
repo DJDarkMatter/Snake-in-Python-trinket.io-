@@ -140,10 +140,10 @@ def loop(): # Define main loop function gets called in last line of main loop
     else: gameover() # Call gameover function of snake is inside itsself or border
     
     # Keypresses:
-    screen.onkey(w, 'up') # Call w function if uparrow detected
-    screen.onkey(a, 'left') # Call a function if leftarrow detected
-    screen.onkey(s, 'down') # Call s function if downarrow detected
-    screen.onkey(d, 'right') # Call d function if rightarrow detected
+    screen.onkey(w, 'Up') # Call w function if uparrow detected
+    screen.onkey(a, 'Left') # Call a function if leftarrow detected
+    screen.onkey(s, 'Down') # Call s function if downarrow detected
+    screen.onkey(d, 'Right') # Call d function if rightarrow detected
     screen.listen() # Listen for keypresses
     screen.ontimer(loop, 1000) # Restart loop with delay of 1s --> gamespeed
 
