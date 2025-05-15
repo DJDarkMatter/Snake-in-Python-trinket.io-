@@ -130,7 +130,6 @@ def loop(): # Define main loop function gets called in last line of main loop
     screen.listen() # Listen for keypresses
     screen.ontimer(loop, 600) # Restart loop with delay of 1s --> gamespeed
 
-#    loop() # Call main loop function for starting game
     turtle.mainloop() # Keep window open to listen for keypresses
 
 def reset(): # Define reset function for restarting the game
