@@ -1,10 +1,10 @@
 # Ivan N. presenting....
 # Snake in Trinket
 # Todo:
-# Death screen
-# Restart after death
-# Score counter?
 # Speed up as time goes on?
+# Bug: can turn twice into own tail
+# Bug: controls not perfectly responsive
+# Bug: when resetting mid draw, the heading sometimes doesnt get reset
 
 # Setup:
 import turtle # Turtle library
@@ -12,6 +12,7 @@ import random # Random number library
 import math # Maths operations library
 tommy = turtle.Turtle() # Define turtle tommy
 tommy.speed(10000) # Turtle speed
+tommy.hideturtle() # Hide cursor
 screen = turtle.Screen() # Initialize screen for keyboardIn
 drawncells = [] # Create list storing snake body locations
 border = [] # Create list storing border locations
@@ -38,11 +39,11 @@ def delcell(): # Define function delete cell
   tommy.forward(6)
   tommy.right(90)
   tommy.backward(6) # Move from arbitrary center to corner but 1 further to erase all
-  tommy.begin_fill() # EColor start
+  tommy.begin_fill() # Color start
   for i in range(4): # For loop repeating 4 times
     tommy.forward(12) # 1 Wall of a cell
     tommy.right(90) # 1 Corner of a cell
-  tommy.end_fill()
+  tommy.end_fill() # Color stop
   tommy.penup() # Color stop
   tommy.forward(6)
   tommy.left(90)
@@ -51,6 +52,14 @@ def delcell(): # Define function delete cell
 def gameover(): # Define game over function
   global looprunning # Fetch boolean looprunning defined in setup
   looprunning = False # Disallow loop from executing next time
+  tommy.goto(0,35)
+  tommy.color("red")
+  tommy.write("Score:", align="center", font=("Arial", 16, "normal"))
+  tommy.goto(0,0)
+  tommy.write(startlength-4, align="center", font=("Arial", 26, "normal"))
+  tommy.goto(0,-40)
+  tommy.color("grey")
+  tommy.write("Press \"R\" to restart", align="center", font=("Arial", 16, "normal")) # Display score and reset tutorial
   
 def trim(currentpos): # Define function trimming worm tail, currentpos set in main loop
   if len(drawncells) > startlength: # If snake body is longer than snake length
@@ -124,7 +133,7 @@ def loop(): # Define main loop function gets called in last line of main loop
 #    loop() # Call main loop function for starting game
     turtle.mainloop() # Keep window open to listen for keypresses
 
-def reset():
+def reset(): # Define reset function for restarting the game
   global drawncells, startlength, looprunning, applepos # Fetch variables & tuples used
   looprunning = False # Stop loop in case game gets reset manually
   drawncells = [] # Reset list storing snake body locations
@@ -149,9 +158,10 @@ screen.onkey(w, "Up") # Call w function if uparrow detected
 screen.onkey(a, "Left") # Call a function if leftarrow detected
 screen.onkey(s, "Down") # Call s function if downarrow detected
 screen.onkey(d, "Right") # Call d function if rightarrow detected
-screen.onkey(reset, "r")
+screen.onkey(reset, "r") # Call reset function if "r" is detected
   
 # Draw Background & Border:
+tommy.write("Loading...", align="center", font=("Arial", 16, "normal")) # Display loading message
 tommy.penup() # Color stop
 tommy.goto(-200,-200) # Go to bottom left
 tommy.fillcolor("black") # Set color black
