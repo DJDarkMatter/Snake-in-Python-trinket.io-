@@ -11,7 +11,7 @@ import turtle # Turtle library
 import random # Random number library
 import math # Maths operations library
 tommy = turtle.Turtle() # Define turtle tommy
-tommy.speed(10000) # Turtle speed
+tommy.speed(0) # Turtle max speed
 tommy.hideturtle() # Hide cursor
 screen = turtle.Screen() # Initialize screen for keyboardIn
 drawncells = [] # Create list storing snake body locations
@@ -80,15 +80,13 @@ def apple(): # Define apple function
         break # If apple reachable, break out of while true loop
   tommy.goto(applepos) # Go to just defined apple position
   tommy.fillcolor("red") # Set color to red for apple
-  tommy.right(90)
   tommy.forward(5)
   tommy.left(90) # Move to side so circle is on center
   tommy.begin_fill() # Color start
   tommy.circle(5) # Draw apple
   tommy.end_fill() # Color stop
   tommy.right(90)
-  tommy.backward(5)
-  tommy.left(90) # Move back to center
+  tommy.backward(5) # Move back to center
   tommy.fillcolor("black") # Set color back to black
   tommy.goto(currentpos) # Go back to current head position
   
