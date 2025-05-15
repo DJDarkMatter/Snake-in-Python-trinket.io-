@@ -64,7 +64,7 @@ def trim(currentpos): # Define function trimming worm tail, currentpos set in ma
 
 def apple(): # Define apple function
   global applepos # Fetch tuple applepos, currently empty
-  currentpos = (round(tommy.xcor(), 5), round(tommy.ycor(), 5)) # set currentpos again so turtle can go back after apple
+  currentpos = (round(tommy.xcor()), round(tommy.ycor())) # set currentpos again so turtle can go back after apple
   while True: # While true loop generates apple positions until valid is found
       applepos = (random.randint(-19, 19)*10, random.randint(-19, 19)*10) # Set random x,y value from -190 to 190 rounded to 10
       if applepos not in drawncells and applepos not in border: # Check if apple spawned in player or border
@@ -105,9 +105,8 @@ def loop(): # Define main loop function gets called in last line of main loop
   global looprunning, applepos, startlength # Fetch variables & tuples used in main loop
   if looprunning is True: # Only enters the meat of the main loop when looprunning is true
     tommy.forward(10) # Main forward move
-    currentpos = (round(tommy.xcor(), 5), round(tommy.ycor(), 5))
     # Apple Eat:
-    currentpos = (round(tommy.xcor(), 10), round(tommy.ycor(), 10)) # Update currentpos to compare to applepos
+    currentpos = (round(tommy.xcor()), round(tommy.ycor())) # Update currentpos to compare to applepos
     if distance(currentpos, applepos) <= 6: # If distance to apple less than 6 (cell radius +1 tolerance)
       apple() # Call apple function to generate new apple, snake paints over old one
       startlength += 1 # Give length for apple
@@ -127,9 +126,10 @@ def loop(): # Define main loop function gets called in last line of main loop
 
 def reset():
   global drawncells, startlength, looprunning, applepos # Fetch variables & tuples used
+  looprunning = False # Stop loop in case game gets reset manually
   drawncells = [] # Reset list storing snake body locations
   startlength = 4 # Snakes length reset
-  looprunning = True # Set looprunning to true for starting game
+  tommy.setheading(0) # Reset heading in case reset was called mid draw
   tommy.goto(-196,-196) # Go to bottom left inside border
   tommy.fillcolor("white") # Set color white for background, normal is off white, snake left trace
   tommy.begin_fill() # Color start
@@ -137,17 +137,19 @@ def reset():
     tommy.forward(392) # 1 Wall of background
     tommy.left(90) # 1 Corner of background
   tommy.end_fill() # Color stop
-  tommy.fillcolor("black") # Set color back to black
+  tommy.goto(0,0) # Move to center for starting game
   applepos = None # Reset tuple holding apple position
   apple() # Call apple function manually to generate first apple position
-  tommy.goto(0,0) # Move to center for starting game
+  tommy.fillcolor("black") # Set color back to black
+  looprunning = True # Set looprunning to true for starting game
   loop() # Call main loop function for starting game
 
 # Keypresses:
-screen.onkey(w, 'Up') # Call w function if uparrow detected
-screen.onkey(a, 'Left') # Call a function if leftarrow detected
-screen.onkey(s, 'Down') # Call s function if downarrow detected
-screen.onkey(d, 'Right') # Call d function if rightarrow detected
+screen.onkey(w, "Up") # Call w function if uparrow detected
+screen.onkey(a, "Left") # Call a function if leftarrow detected
+screen.onkey(s, "Down") # Call s function if downarrow detected
+screen.onkey(d, "Right") # Call d function if rightarrow detected
+screen.onkey(reset, "r")
   
 # Draw Background & Border:
 tommy.penup() # Color stop
@@ -155,7 +157,7 @@ tommy.goto(-200,-200) # Go to bottom left
 tommy.fillcolor("black") # Set color black
 for i in range (4): # For loop repeats the line 4 times
   for i in range (40): # For loop makes line of 40 cells 
-    currentpos = (round(tommy.xcor(), 10), round(tommy.ycor(), 10)) # Capture border position for deathcheck
+    currentpos = (round(tommy.xcor()), round(tommy.ycor())) # Capture border position for deathcheck
     cell() # Draw cell as border
     border.append(currentpos) # Append just captured border position to list for deathcheck
     tommy.forward(10) # Move forward between border cells
