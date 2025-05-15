@@ -14,7 +14,6 @@ tommy = turtle.Turtle() # Define turtle tommy
 tommy.speed(0) # Turtle max speed
 tommy.hideturtle() # Hide cursor
 screen = turtle.Screen() # Initialize screen for keyboardIn
-turtle.mainloop() # Keep window open to listen for keypresses
 screen.listen() # Listen for keypresses
 drawncells = [] # Create list storing snake body locations
 border = [] # Create list storing border locations
@@ -169,5 +168,5 @@ for i in range (4): # For loop repeats the line 4 times
     tommy.forward(10) # Move forward between border cells
   tommy.left(90) # 1 Corner of border
 reset() # Call reset function to start game
-
+turtle.mainloop() # Keep window open to listen for keypresses
 # Code by Ivan N.
