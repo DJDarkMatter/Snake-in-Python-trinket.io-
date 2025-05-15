@@ -15,6 +15,7 @@ tommy.speed(0) # Turtle max speed
 tommy.hideturtle() # Hide cursor
 screen = turtle.Screen() # Initialize screen for keyboardIn
 turtle.mainloop() # Keep window open to listen for keypresses
+screen.listen() # Listen for keypresses
 drawncells = [] # Create list storing snake body locations
 border = [] # Create list storing border locations
 startlength = 4 # Snakes length
@@ -126,7 +127,6 @@ def loop(): # Define main loop function gets called in last line of main loop
       trim(currentpos) # Call trim function to remove last cell
     else: gameover() # Call gameover function of snake is inside itsself or border
     
-    screen.listen() # Listen for keypresses
     screen.ontimer(loop, 600) # Restart loop with delay of 1s --> gamespeed
 
 def reset(): # Define reset function for restarting the game
