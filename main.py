@@ -38,7 +38,7 @@ def delcell(): # Define function delete cell
   tommy.forward(6)
   tommy.right(90)
   tommy.backward(6) # Move from arbitrary center to corner but 1 further to erase all
-  tommy.begin_fill() # Color start
+  tommy.begin_fill() # EColor start
   for i in range(4): # For loop repeating 4 times
     tommy.forward(12) # 1 Wall of a cell
     tommy.right(90) # 1 Corner of a cell
@@ -100,32 +100,12 @@ def d(): # Define function called when rightarrow is hit
   if tommy.heading() == 270 or tommy.heading() == 90: # If facing opposite way
     tommy.setheading(0) # Turn right
 
-# Draw Background & Border:
-tommy.penup() # Color stop
-tommy.goto(-200,-200) # Go to bottom left
-tommy.fillcolor("black") # Set color black
-for i in range (4): # For loop repeats the line 4 times
-  for i in range (40): # For loop makes line of 40 cells 
-    currentpos = (round(tommy.xcor(), 10), round(tommy.ycor(), 10)) # Capture border position for deathcheck
-    cell() # Draw cell as border
-    border.append(currentpos) # Append just captured border position to list for deathcheck
-    tommy.forward(10) # Move forward between border cells
-  tommy.left(90) # 1 Corner of border
-tommy.goto(-196,-196) # Go to bottom left inside border
-tommy.fillcolor("white") # Set color white for background, normal is off white, snake left trace
-tommy.begin_fill() # Color start
-for i in range (4): # For loop for drawing square background
-  tommy.forward(392) # 1 Wall of background
-  tommy.left(90) # 1 Corner of background
-tommy.end_fill() # Color stop
-tommy.fillcolor("black") # Set color back to black
-
 # Loop
 def loop(): # Define main loop function gets called in last line of main loop
   global looprunning, applepos, startlength # Fetch variables & tuples used in main loop
-  if looprunning: # Only enters the meat of the main loop when looprunning is true
+  if looprunning is True: # Only enters the meat of the main loop when looprunning is true
     tommy.forward(10) # Main forward move
-    
+    currentpos = (round(tommy.xcor(), 5), round(tommy.ycor(), 5))
     # Apple Eat:
     currentpos = (round(tommy.xcor(), 10), round(tommy.ycor(), 10)) # Update currentpos to compare to applepos
     if distance(currentpos, applepos) <= 6: # If distance to apple less than 6 (cell radius +1 tolerance)
@@ -139,17 +119,47 @@ def loop(): # Define main loop function gets called in last line of main loop
       trim(currentpos) # Call trim function to remove last cell
     else: gameover() # Call gameover function of snake is inside itsself or border
     
-    # Keypresses:
-    screen.onkey(w, 'Up') # Call w function if uparrow detected
-    screen.onkey(a, 'Left') # Call a function if leftarrow detected
-    screen.onkey(s, 'Down') # Call s function if downarrow detected
-    screen.onkey(d, 'Right') # Call d function if rightarrow detected
     screen.listen() # Listen for keypresses
-    screen.ontimer(loop, 1000) # Restart loop with delay of 1s --> gamespeed
+    screen.ontimer(loop, 600) # Restart loop with delay of 1s --> gamespeed
 
-# Start:
-apple() # Call apple function manually to generate first apple position
-tommy.goto(0,0) # Move to center for starting game
-loop() # Call main loop function for starting game
-turtle.mainloop() # Keep window open to listen for keypresses
+#    loop() # Call main loop function for starting game
+    turtle.mainloop() # Keep window open to listen for keypresses
+
+def reset():
+  global drawncells, startlength, looprunning, applepos # Fetch variables & tuples used
+  drawncells = [] # Reset list storing snake body locations
+  startlength = 4 # Snakes length reset
+  looprunning = True # Set looprunning to true for starting game
+  tommy.goto(-196,-196) # Go to bottom left inside border
+  tommy.fillcolor("white") # Set color white for background, normal is off white, snake left trace
+  tommy.begin_fill() # Color start
+  for i in range (4): # For loop for drawing square background
+    tommy.forward(392) # 1 Wall of background
+    tommy.left(90) # 1 Corner of background
+  tommy.end_fill() # Color stop
+  tommy.fillcolor("black") # Set color back to black
+  applepos = None # Reset tuple holding apple position
+  apple() # Call apple function manually to generate first apple position
+  tommy.goto(0,0) # Move to center for starting game
+  loop() # Call main loop function for starting game
+
+# Keypresses:
+screen.onkey(w, 'Up') # Call w function if uparrow detected
+screen.onkey(a, 'Left') # Call a function if leftarrow detected
+screen.onkey(s, 'Down') # Call s function if downarrow detected
+screen.onkey(d, 'Right') # Call d function if rightarrow detected
+  
+# Draw Background & Border:
+tommy.penup() # Color stop
+tommy.goto(-200,-200) # Go to bottom left
+tommy.fillcolor("black") # Set color black
+for i in range (4): # For loop repeats the line 4 times
+  for i in range (40): # For loop makes line of 40 cells 
+    currentpos = (round(tommy.xcor(), 10), round(tommy.ycor(), 10)) # Capture border position for deathcheck
+    cell() # Draw cell as border
+    border.append(currentpos) # Append just captured border position to list for deathcheck
+    tommy.forward(10) # Move forward between border cells
+  tommy.left(90) # 1 Corner of border
+reset() # Call reset function to start game
+
 # Code by Ivan N.
